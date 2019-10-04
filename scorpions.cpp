@@ -1,18 +1,6 @@
 
 // scorpions.cpp
 
-// Portions you are to complete are marked with a TODO: comment.
-// We've provided some incorrect return statements (so indicated) just
-// to allow this skeleton program to compile and run, albeit incorrectly.
-// The first thing you probably want to do is implement the trivial
-// functions (marked TRIVIAL).  Then get Pit::display going.  That gives you
-// more flexibility in the order you tackle the rest of the functionality.
-// As you finish implementing each TODO: item, remove its TODO: comment.
-
-//////////////
-// Look for ¿ alt shift ? for code to re evaluate
-//////////////
-
 #include <iostream>
 #include <string>
 #include <random>
@@ -42,9 +30,7 @@ const int NUMDIRS = 4;
 // Type definitions
 ///////////////////////////////////////////////////////////////////////////
 
-class Pit;  // This is needed to let the compiler know that Pit is a
-// type name, since it's mentioned in the Scorpion declaration.
-
+class Pit;  
 class Scorpion
 {
 public:
@@ -172,17 +158,17 @@ int Scorpion::row() const
 
 int Scorpion::col() const
 {
-   // TRIVIAL:  Return the column the scorpion is at.
+   // Return the column the scorpion is at.
    return m_col;
 }
 
 void Scorpion::move()
 {
-   // Attempt to move in a random direction; if we can't move, don't move
+   // Attempt to move in a random direction; if you can't move, don't move
    switch (randInt(0, NUMDIRS-1))
    {
       case UP:
-         // TODO:  Move the scorpion up one row if possible.
+         // Move the scorpion up one row if possible.
          if (row() != 1)
             m_row--;
          break;
@@ -195,7 +181,7 @@ void Scorpion::move()
             m_col--;
          break;
       case RIGHT:
-         // TODO:  Implement the other movements.
+         // Implement the other movements.
          if (col() != m_pit->cols())
             m_col++;
          break;
@@ -228,19 +214,19 @@ Player::Player(Pit* pp, int r, int c)
 
 int Player::row() const
 {
-   // TRIVIAL:  Return the row the player is at.
+   // Return the row the player is at.
    return m_row;
 }
 
 int Player::col() const
 {
-   // TRIVIAL:  Return the column the player is at.
+   // Return the column the player is at.
    return m_col;
 }
 
 int Player::age() const
 {
-   // TRIVIAL:  Return the player's age.
+   // Return the player's age.
    return m_age;
 }
 
@@ -351,12 +337,8 @@ void Player::move(int dir)
          stand();
          break;
    }
-   // If theres a position past the scorpion(s) in the indicated direction, skip over the scorpions, destroying one, and landing in that past spot.  If there is a scorpion in that spot, death
-   // If there is is no position past the scorpions(on border), jump on the scorpions, killing one and dying if one is still there
-   // If theres a scorpion against the border and you move in its direction, you kill it and take its place.  If there is more than one scorpion against the border and you move in that direction, you kill one, take its place, and die
-   
-   
-   // TODO:  If there's a grid position in the indicated direction that is
+
+   // Rules: If there's a grid position in the indicated direction that is
    //        adjacent to the player and vacant, move the player there.  If
    //        there's a grid position in the indicated direction that is
    //        adjacent to the player and contains one or more scorpions, with
@@ -373,8 +355,8 @@ void Player::move(int dir)
 
 bool Player::isDead() const
 {
-   // TRIVIAL:  Return whether the player is dead.
-   return m_dead;  // ¿ m_dead is an int, this works but should it be changed to a bool in declaration?
+   // Return whether the player is dead.
+   return m_dead;
 }
 
 void Player::setDead()
@@ -405,18 +387,18 @@ Pit::~Pit()
    for (int i = 0; i < m_nScorpions; i++)
       delete m_scorpions[i];
    delete m_player;
-   // TODO-DONE:  ¿ Delete the player and all remaining dynamically allocated scorpions.
+   // Delete the player and all remaining dynamically allocated scorpions.
 }
 
 int Pit::rows() const
 {
-   // TRIVIAL:  Return the number of rows in the pit.
+   // Return the number of rows in the pit.
    return m_rows;
 }
 
 int Pit::cols() const
 {
-   // TRIVIAL:  Return the number of columns in the pit.
+   // Return the number of columns in the pit.
    return m_cols;
 }
 
@@ -432,7 +414,7 @@ int Pit::scorpionCount() const
 
 int Pit::numberOfScorpionsAt(int r, int c) const
 {
-   // TODO-DONE:  Return the number of scorpions at row r, column c.
+   // Return the number of scorpions at row r, column c.
    int count = 0;
    for (int i = 0; i < m_nScorpions; i++)
       if (m_scorpions[i]->row() == r && m_scorpions[i]->col() == c)
@@ -454,10 +436,6 @@ void Pit::display() const
          grid[r][c] = '.';
    
    // Indicate each scorpion's position
-   // TODO-DONE:  If one scorpion is at some grid point, set the char to 'S'.
-   //             If it's 2 though 8, set it to '2' through '8'.
-   //             For 9 or more, set it to '9'.
-   
    for (int x = 0; x < rows(); x++)
       for (int y = 0; y < cols(); y++)
          for (int i = 0; i < m_nScorpions; i++)
@@ -516,8 +494,6 @@ bool Pit::addScorpion(int r, int c)
    // If there are MAXSCORPIONS existing scorpions, return false.
    // Otherwise, dynamically allocate a new scorpion at coordinates (r,c).
    // Save the pointer to the newly allocated scorpionn and return true.
-   
-   // TODO-DONE
    if (m_nScorpions == MAXSCORPIONS)
       return false;
    else
@@ -548,8 +524,8 @@ bool Pit::addPlayer(int r, int c)
 
 bool Pit::destroyOneScorpion(int r, int c)
 {
-   // TODO-DONE:  Destroy one scorpion at row r, column c.  Return true if a
-   //             scorpion was destroyed, or false if there were no scorpions there.
+   // Destroy one scorpion at row r, column c.  Return true if a
+   // scorpion was destroyed, or false if there were no scorpions there.
    for (int i = 0; i < m_nScorpions; i++)
       if (m_scorpions[i]->row() == r && m_scorpions[i]->col() == c){
          delete m_scorpions[i];
@@ -558,16 +534,15 @@ bool Pit::destroyOneScorpion(int r, int c)
          m_nScorpions--;
          return true;
       }
-   return false;  // this is wrong -- replace it
+   return false; 
 }
 
 bool Pit::moveScorpions()
 {
    for (int k = 0; k < m_nScorpions; k++)
    {
-      // TODO:  Have the k-th scorpion in the pit make one move.
-      //        If that move results in that scorpion being in the same
-      //        position as the player, the player dies.
+      // Have the k-th scorpion in the pit make one move.  If that move results 
+      // in that scorpion being in the same position as the player, the player dies.
       m_scorpions[k]->move();
       if (m_scorpions[k]->row() == m_player->row() && m_scorpions[k]->col() == m_player->col())
          m_player->setDead();
@@ -590,18 +565,18 @@ Game::Game(int rows, int cols, int nScorpions)
 {
    if (nScorpions < 0)
    {
-      cout << "***** Cannot create Game with negative number of scorpions!" << endl;
+      cout << "Cannot create Game with negative number of scorpions!" << endl;
       exit(1);
    }
    if (nScorpions > MAXSCORPIONS)
    {
-      cout << "***** Trying to create Game with " << nScorpions
+      cout << "Trying to create Game with " << nScorpions
       << " scorpions; only " << MAXSCORPIONS << " are allowed!" << endl;
       exit(1);
    }
    if (rows == 1  &&  cols == 1  &&  nScorpions > 0)
    {
-      cout << "***** Cannot create Game with nowhere to place the scorpions!" << endl;
+      cout << "Cannot create Game with nowhere to place the scorpions!" << endl;
       exit(1);
    }
    
@@ -619,9 +594,9 @@ Game::Game(int rows, int cols, int nScorpions)
       int r = randInt(1, rows);
       int c = randInt(1, cols);
       // Don't put a scorpion where the player is
-      if (r == rPlayer  &&  c == cPlayer)  // ¿ Should the operators be != ?
+      if (r == rPlayer  &&  c == cPlayer)
          continue;
-      m_pit->addScorpion(r, c); // ¿ CHANGING nScorpions--; TO AN IF STATEMENT IN A PUBLIC CONSTRUCTOR
+      m_pit->addScorpion(r, c);
       nScorpions--;
    }
 }
@@ -674,6 +649,7 @@ void Game::play()
 
 ///////////////////////////////////////////////////////////////////////////
 //  Auxiliary function implementation
+//  - Code Beyond here written by Professor Smallberg -
 ///////////////////////////////////////////////////////////////////////////
 
 // Return a uniformly distributed random int from min to max, inclusive
@@ -696,7 +672,7 @@ int decodeDirection(char dir)
       case 'l':  return LEFT;
       case 'r':  return RIGHT;
    }
-   return -1;  // bad argument passed in!
+   return -1;
 }
 
 bool directionToDeltas(int dir, int& rowDelta, int& colDelta)
